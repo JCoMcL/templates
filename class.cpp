@@ -1,0 +1,5 @@
+class TEMP {
+	public:
+		TEMP() {
+		}
+};

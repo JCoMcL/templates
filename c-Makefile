@@ -1,0 +1,20 @@
+CFLAGS = -I/usr/include/libevdev-1.0
+LDFLAGS = `pkg-config --static --libs libevdev`
+
+TITLE = TEMP
+SRC = *.c
+OBJ = ${SRC:.c=.o}
+
+${TITLE}: ${OBJ}
+	cc -o $@ ${OBJ} ${LDFLAGS}
+
+%.o: %.c
+	cc -c ${CFLAGS} $< -o $@
+
+clean:
+	-rm -f ${OBJ} ${SRC:.c=.h} ${TITLE}
+
+test: ${TITLE}
+	./${TITLE}
+
+.PHONY: setup clean test
