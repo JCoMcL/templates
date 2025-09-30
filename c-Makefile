@@ -1,18 +1,17 @@
-CFLAGS = -I/usr/include/libevdev-1.0
-LDFLAGS = `pkg-config --static --libs libevdev`
+LDFLAGS = `test -f requirements && pkg-config --static --libs $$(<requirements)`
 
 TITLE = TEMP
-SRC = *.c
+
+SRC = $(wildcard *.c)
 OBJ = ${SRC:.c=.o}
 
-${TITLE}: ${OBJ}
-	cc -o $@ ${OBJ} ${LDFLAGS}
+${TITLE}: ${SRC}
+	cc -o $@ $< ${LDFLAGS}
 
 %.o: %.c
-	cc -c ${CFLAGS} $< -o $@
-
+	cc -o $@ $< ${LDFLAGS}
 clean:
-	-rm -f ${OBJ} ${SRC:.c=.h} ${TITLE}
+	-rm -f ${TITLE} a.out
 
 test: ${TITLE}
 	./${TITLE}
